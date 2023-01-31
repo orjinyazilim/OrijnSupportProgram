@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"] - OrjinDestek</title>
+    <!-- responsive CSS
+    ============================================ -->
+    <link rel="stylesheet" href="css/navbar.css"/>
+</head>
+<body>
+
+<div class="container">
+    <div class="area"></div><nav class="main-menu">
+        <ul>
+                    <li>
+                        <a href="https://jbfarrow.com">
+                            <i  class="fa fa-home margin-top-icon"></i>
+                        </a>
+                      
+                    </li>
+                    <li class="has-subnav">
+                        <a href="#">
+                            <i class="fa fa-globe margin-top-icon"></i>
+                        </a>
+                        
+                    </li>
+                    <li class="has-subnav">
+                        <a href="#">
+                           <i class="fa fa-comments margin-top-icon"></i>
+                        </a>
+                        
+                    </li>
+                    <li class="has-subnav">
+                        <a href="#">
+                           <i class="fa fa-camera-retro margin-top-icon"></i>
+                        </a>
+                       
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-film margin-top-icon"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-book margin-top-icon"></i>
+                        </a>
+                    </li>
+                    <li>
+                       <a href="#">
+                           <i class="fa fa-cogs margin-top-icon"></i>
+                       </a>
+                    </li>
+                    <li>
+                       <a href="#">
+                            <i class="fa fa-map-marker margin-top-icon"></i>
+                       </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                           <i class="fa fa-info margin-top-icon"></i>
+                        </a>
+                    </li>
+                </ul>
+    
+                <ul class="logout">
+                    <li>
+                       <a href="#">
+                             <i class="fa fa-power-off margin-top-icon"></i>
+                       </a>
+                    </li>  
+                </ul>
+            </nav>
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+</div>
+
+
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
