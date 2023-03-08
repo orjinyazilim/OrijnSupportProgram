@@ -1,6 +1,7 @@
-﻿@model IEnumerable<TbDestek>
+﻿@model dynamic
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Ana Sayfa";
+	ViewData["Token"] = Model.token;
 }
 
 <!doctype html>
@@ -15,7 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- favicon
 		============================================ -->
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="img/email.png">
     <!-- Google Fonts
 		============================================ -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
@@ -75,6 +76,8 @@
     <!-- responsive CSS
 		============================================ -->
     <link rel="stylesheet" href="css/responsive.css">
+    <!-- Alert Css -->
+    <link rel="stylesheet" href="css/alert.css"/>
     <!-- modernizr JS
 		============================================ -->
     <script src="js/vendor/modernizr-2.8.3.min.js"></script>
@@ -83,8 +86,8 @@
 
 
 <body>
-<h1 style="text-align: center ; margin-top: 10px">Orjin <span class="table-project-n text-info">Yazılım</span> </h1>
-<div class="data-table-area mg-b-15" style="margin-top: 10px">
+<h1 style="text-align: center ; margin-top: 10px"> <span class="table-project-n text-info">Orjin</span> Yazılım </h1>
+<div class="data-table-area mg-b-15" style="margin-top: 10px ; border-radius: 10px">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -110,171 +113,53 @@
 			                                <option>Tüm Talepler (24)</option>
 		                                </select>
 	                                </div>
-	                                <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true"
-	                                       data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
-		                                <thead>
-		                                <tr>
-			                                <th data-field="state" data-checkbox="true"></th>
-			                                <th data-field="durum(renk_kodu)">Durum</th>
-			                                <th data-field="ref.no">Ref.No</th>
-			                                <th data-field="durum">Durum</th>
-			                                <th data-field="tarih">Tarih</th>
-			                                <th data-field="firma">Firma</th>
-			                                <th data-field="proje">Proje</th>
-			                                <th data-field="konu">Konu</th>
-			                                <th data-field="talep_eden">Talep Eden</th>
-			                                <th data-field="destek_personeli">Destek Personeli</th>
-			                                <th data-field="gecen_sure">Geçen Süre</th>
-		                                </tr>
-		                                </thead>
-		                                <tbody>
-		                                <tr>
-			                                <td></td>
-			                                <td>Durum</td>
-			                                <td>Ref.No</td>
-			                                <td>Durum</td>
-			                                <td>Tarih</td>
-			                                <td>Firma</td>
-			                                <td>Proje</td>
-			                                <td>Konu</td>
-			                                <td>Talep Eden</td>
-			                                <td>Destek Personeli</td>
-			                                <td>Geçen Süre</td>
-		                                </tr>
-		                                <tr>
-			                                <td></td>
-			                                <td>Durum</td>
-			                                <td>Ref.No</td>
-			                                <td>Durum</td>
-			                                <td>Tarih</td>
-			                                <td>Firma</td>
-			                                <td>Proje</td>
-			                                <td>Konu</td>
-			                                <td>Talep Eden</td>
-			                                <td>Destek Personeli</td>
-			                                <td>Geçen Süre</td>
-		                                </tr>
-		                                <tr>
-			                                <td></td>
-			                                <td>Durum</td>
-			                                <td>Ref.No</td>
-			                                <td>Durum</td>
-			                                <td>Tarih</td>
-			                                <td>Firma</td>
-			                                <td>Proje</td>
-			                                <td>Konu</td>
-			                                <td>Talep Eden</td>
-			                                <td>Destek Personeli</td>
-			                                <td>Geçen Süre</td>
-		                                </tr>
-		                                <tr>
-			                                <td></td>
-			                                <td>Durum</td>
-			                                <td>Ref.No</td>
-			                                <td>Durum</td>
-			                                <td>Tarih</td>
-			                                <td>Firma</td>
-			                                <td>Proje</td>
-			                                <td>Konu</td>
-			                                <td>Talep Eden</td>
-			                                <td>Destek Personeli</td>
-			                                <td>Geçen Süre</td>
-		                                </tr>
-		                                <tr>
-			                                <td></td>
-			                                <td>Durum</td>
-			                                <td>Ref.No</td>
-			                                <td>Durum</td>
-			                                <td>Tarih</td>
-			                                <td>Firma</td>
-			                                <td>Proje</td>
-			                                <td>Konu</td>
-			                                <td>Talep Eden</td>
-			                                <td>Destek Personeli</td>
-			                                <td>Geçen Süre</td>
-		                                </tr>
-		                                <tr>
-			                                <td></td>
-			                                <td>Durum</td>
-			                                <td>Ref.No</td>
-			                                <td>Durum</td>
-			                                <td>Tarih</td>
-			                                <td>Firma</td>
-			                                <td>Proje</td>
-			                                <td>Konu</td>
-			                                <td>Talep Eden</td>
-			                                <td>Destek Personeli</td>
-			                                <td>Geçen Süre</td>
-		                                </tr>
-		                                <tr>
-			                                <td></td>
-			                                <td>Durum</td>
-			                                <td>Ref.No</td>
-			                                <td>Durum</td>
-			                                <td>Tarih</td>
-			                                <td>Firma</td>
-			                                <td>Proje</td>
-			                                <td>Konu</td>
-			                                <td>Talep Eden</td>
-			                                <td>Destek Personeli</td>
-			                                <td>Geçen Süre</td>
-		                                </tr>
-		                                <tr>
-			                                <td></td>
-			                                <td>Durum</td>
-			                                <td>Ref.No</td>
-			                                <td>Durum</td>
-			                                <td>Tarih</td>
-			                                <td>Firma</td>
-			                                <td>Proje</td>
-			                                <td>Konu</td>
-			                                <td>Talep Eden</td>
-			                                <td>Destek Personeli</td>
-			                                <td>Geçen Süre</td>
-		                                </tr>
-		                                <tr>
-			                                <td></td>
-			                                <td>Durum</td>
-			                                <td>Ref.No</td>
-			                                <td>Durum</td>
-			                                <td>Tarih</td>
-			                                <td>Firma</td>
-			                                <td>Proje</td>
-			                                <td>Konu</td>
-			                                <td>Talep Eden</td>
-			                                <td>Destek Personeli</td>
-			                                <td>Geçen Süre</td>
-		                                </tr>
-		                                <tr>
-			                                <td></td>
-			                                <td>Durum</td>
-			                                <td>Ref.No</td>
-			                                <td>Durum</td>
-			                                <td>Tarih</td>
-			                                <td>Firma</td>
-			                                <td>Proje</td>
-			                                <td>Konu</td>
-			                                <td>Talep Eden</td>
-			                                <td>Destek Personeli</td>
-			                                <td>Geçen Süre</td>
-		                                </tr>
-		                                <tr>
-			                                <td></td>
-			                                <td>Durum</td>
-			                                <td>Ref.No</td>
-			                                <td>Durum</td>
-			                                <td>Tarih</td>
-			                                <td>Firma</td>
-			                                <td>Proje</td>
-			                                <td>Konu</td>
-			                                <td>Talep Eden</td>
-			                                <td>Destek Personeli</td>
-			                                <td>Geçen Süre</td>
-		                                </tr>
-		                                </tbody>
-	                                </table>
+                                <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true"
+                                       data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
+                                <thead>
+                                <tr>
+	                                <th data-field="state" data-checkbox="true"></th>
+	                                <th data-field="renk">Durum</th>
+	                                <th data-field="refNo">Ref.No</th>
+	                                <th data-field="durum">Durum</th>
+	                                <th data-field="tarih">Tarih</th>
+	                                <th data-field="firma">Firma</th>
+	                                <th data-field="proje">Proje</th>
+	                                <th data-field="konu">Konu</th>
+	                                <th data-field="talep_eden">Talep Eden</th>
+	                                <th data-field="destek_personeli">Destek Personeli</th>
+	                                <th data-field="gecen_sure">Geçen Süre</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var item in Model.getList)
+                                {
+	                                <tr>
+		                                <td></td>
+		                                @if(item.Durum != null && item.Durum.Equals("AÇIK"))
+		                                {
+			                                <td><div style="background-color: green ; width: 30px ; height: 20px"></div></td>
+		                                }
+		                                else
+		                                {
+			                                <td><div style="background-color: red ; width: 30px ; height: 20px"></div></td>
+		                                }
+		                                <td><a asp-controller="DetailsPage" asp-action="Index" asp-route-refNo="@item.RefNo" asp-route-firmaAdi="@item.Firma" asp-route-token="@Model.token">@item.RefNo</a></td>
+		                                <td><a asp-controller="DetailsPage" asp-action="Index" asp-route-refNo="@item.RefNo" asp-route-firmaAdi="@item.Firma" asp-route-token="@Model.token">@item.Durum</a></td>
+		                                <td><a asp-controller="DetailsPage" asp-action="Index" asp-route-refNo="@item.RefNo" asp-route-firmaAdi="@item.Firma" asp-route-token="@Model.token">@item.Tarih</a></td>
+		                                <td><a asp-controller="DetailsPage" asp-action="Index" asp-route-refNo="@item.RefNo" asp-route-firmaAdi="@item.Firma" asp-route-token="@Model.token">@item.Firma</a></td>
+		                                <td><a asp-controller="DetailsPage" asp-action="Index" asp-route-refNo="@item.RefNo" asp-route-firmaAdi="@item.Firma" asp-route-token="@Model.token">@item.Proje</a></td>
+		                                <td><a asp-controller="DetailsPage" asp-action="Index" asp-route-refNo="@item.RefNo" asp-route-firmaAdi="@item.Firma" asp-route-token="@Model.token">@item.Konu</a></td>
+		                                <td><a asp-controller="DetailsPage" asp-action="Index" asp-route-refNo="@item.RefNo" asp-route-firmaAdi="@item.Firma" asp-route-token="@Model.token">@item.TalepEden</a></td>
+		                                <td><a asp-controller="DetailsPage" asp-action="Index" asp-route-refNo="@item.RefNo" asp-route-firmaAdi="@item.Firma" asp-route-token="@Model.token">@item.DestekPersonel</a></td>
+		                                <td><a asp-controller="DetailsPage" asp-action="Index" asp-route-refNo="@item.RefNo" asp-route-firmaAdi="@item.Firma" asp-route-token="@Model.token">@item.GecenSure</a></td>
+	                                </tr>
+                                }
+									
+                                </tbody>
+                                </table>
+                                
 	                                <div style="width: 100%; display:flex; justify-content: center">
-		                                <a class="btn btn-primary" style="margin-top: 10px">Yeni Kayıt Ekle</a>
+		                                <a onclick="window.location.href = '/AddRecord?token='+localStorage.getItem('token')" class="btn btn-primary" style="margin-top: 10px">Yeni Kayıt Ekle</a>
 	                                </div>
                                 </div>
                             </div>
@@ -349,11 +234,32 @@
     <script src="js/plugins.js"></script>
     <!-- main JS
 		============================================ -->
-    <script src="js/main.js"></script>
-    <!-- tawk chat JS
-		============================================ -->
-   <script src="js/tawk-chat.js"></script>
-  
-</body>
+	<script src="js/main.js"></script>
+	
 
+</body>
+@if (TempData["Failure"]!=null)
+	{
+		<script src="js/cute-alert.js"></script>
+		<script type="text/javascript">
+	    cuteAlert({
+                      type: "error",
+                      title: "Hata",
+                      message: "@TempData["Failure"]",
+                      buttonText: "Tamam",
+                    })               	
+        </script>
+	}
+@if (TempData["Success"]!=null)
+	{
+		<script src="js/cute-alert.js"></script>
+		<script type="text/javascript">
+	    cuteAlert({
+                      type: "success",
+                      title: "Başarılı",
+                      message: "@TempData["Success"]",
+                      buttonText: "Tamam",
+                    })               	
+        </script>
+	}
 </html>

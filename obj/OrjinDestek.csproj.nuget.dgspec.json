@@ -1,30 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "/Users/alborz/RiderProjects/OrjinDestek/OrjinDestek/OrjinDestek.csproj": {}
+    "/Users/Alborz/RiderProjects/OrjinDestek/OrjinDestek/OrjinDestek.csproj": {}
   },
   "projects": {
-    "/Users/alborz/RiderProjects/OrjinDestek/OrjinDestek/OrjinDestek.csproj": {
+    "/Users/Alborz/RiderProjects/OrjinDestek/OrjinDestek/OrjinDestek.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/alborz/RiderProjects/OrjinDestek/OrjinDestek/OrjinDestek.csproj",
+        "projectUniqueName": "/Users/Alborz/RiderProjects/OrjinDestek/OrjinDestek/OrjinDestek.csproj",
         "projectName": "OrjinDestek",
-        "projectPath": "/Users/alborz/RiderProjects/OrjinDestek/OrjinDestek/OrjinDestek.csproj",
+        "projectPath": "/Users/Alborz/RiderProjects/OrjinDestek/OrjinDestek/OrjinDestek.csproj",
         "packagesPath": "/Users/Alborz/.nuget/packages/",
-        "outputPath": "/Users/alborz/RiderProjects/OrjinDestek/OrjinDestek/obj/",
+        "outputPath": "/Users/Alborz/RiderProjects/OrjinDestek/OrjinDestek/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/Alborz/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
-          "net6.0"
+          "net8.0"
         ],
         "sources": {
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net6.0": {
-            "targetAlias": "net6.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {}
           }
         },
@@ -35,9 +35,13 @@
         }
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.0-preview.1.23112.2, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.2, )"
@@ -51,6 +55,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[7.0.2, )"
+            },
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[6.27.0, )"
             }
           },
           "imports": [
@@ -72,7 +80,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/Users/Alborz/.dotnet/sdk/6.0.402/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.100-preview.1.23115.2/RuntimeIdentifierGraph.json"
         }
       }
     }

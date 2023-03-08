@@ -15,12 +15,20 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = /Users/Alborz/RiderProjects/OrjinDestek/OrjinDestek
 build_property._RazorSourceGeneratorDebug = 
 
+[/Users/alborz/RiderProjects/OrjinDestek/OrjinDestek/Views/AddRecord/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRkUmVjb3JkL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/alborz/RiderProjects/OrjinDestek/OrjinDestek/Views/DetailsPage/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGV0YWlsc1BhZ2UvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/alborz/RiderProjects/OrjinDestek/OrjinDestek/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alborz/RiderProjects/OrjinDestek/OrjinDestek/Views/Home/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
+[/Users/alborz/RiderProjects/OrjinDestek/OrjinDestek/Views/Login/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTG9naW4vSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/alborz/RiderProjects/OrjinDestek/OrjinDestek/Views/Shared/Error.cshtml]

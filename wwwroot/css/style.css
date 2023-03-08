@@ -4720,3 +4720,100 @@ div#sparklinehome canvas {
 	color:#fff;
 	text-decoration:none;
 }
+.yapilan_islem {
+	width: 100% ;
+	height: 450px ; 
+	overflow-y: scroll ;
+	margin: 10px 0 20px 0;
+}
+
+.card-style {
+	background-color: #ebefe7; 
+	border-style: solid; 
+	border-color: #ebefe7; 
+	border-width: 1px ; 
+	border-radius: 8px ; 
+	margin: 10px 0
+}
+
+.card_paragraph {margin-left: 10px}
+
+.yapilan_islem_bottom_container_1{
+	width:100%;
+	display: flex;
+	justify-content: space-between;
+}
+.mail_input_class {
+	width: 40%;
+	display: flex; 
+	justify-content: space-between
+}
+.dropdown {
+	width: 100%;
+	margin-top: 2px;
+}
+.mail_tabs_menu {
+	width: 100%;
+	background-color: #ebefe7;
+	margin-top: 10px;
+	border-width:1px;
+	border-radius: 8px;
+	padding: 10px 0;
+	white-space: nowrap;
+	position: relative;
+	overflow-x: scroll;
+	overflow-y: hidden;
+	-webkit-overflow-scrolling: touch;
+}
+.mail_tab_span {
+	margin: 0 5px;
+	background-color: white;
+	padding: 5px;
+	border-width: 1px;
+	border-color: white;
+	border-radius: 5px;
+}
+
+.delete_button {
+	margin-left: 10px;
+	color:blue;
+	transition: 100ms;
+}
+.delete_button:hover {
+	color:red;
+	cursor: pointer;
+}
+.hover:hover {
+	background-color: grey;
+	color:white;
+	transition: 100ms;
+}
+
+@media only screen and (max-width: 850px) {
+	.yapilan_islem_bottom_container_1 {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+	.mail_input_class {width: 100%}
+	
+	.modal-dialog {
+		position: absolute; 
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		margin: auto;
+		max-width: 100%;
+		max-height: 100%;
+		overflow: auto;
+	}
+}
+
+.modal-header {
+	display: flex;
+	justify-content: space-between;
+	border-bottom: 1px solid gainsboro; 
+	
+}
+a {cursor: pointer}

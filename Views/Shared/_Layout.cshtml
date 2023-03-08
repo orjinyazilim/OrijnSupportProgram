@@ -3,18 +3,22 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@ViewData["Title"] - OrjinDestek</title>
+    <title>@ViewData["Title"]</title>
     <!-- responsive CSS
     ============================================ -->
     <link rel="stylesheet" href="css/navbar.css"/>
+    <!---Fav Icon --->
+    <link rel="shortcut icon" type="image/x-icon" href="img/support_icon.png">
+    <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
 <body>
 
-<div class="container">
+<div id="menu_container" class="container">
     <div class="area"></div><nav class="main-menu">
         <ul>
                     <li>
-                        <a href="https://jbfarrow.com">
+                        <a asp-controller="Home" asp-action="Index" asp-route-token="@ViewData["Token"]">
                             <i  class="fa fa-home margin-top-icon"></i>
                         </a>
                       

@@ -18,4 +18,6 @@ public partial class TbDestekCevap
     public int TbCrmUserId { get; set; }
 
     public int TbDestekId { get; set; }
+    
+    public string? CrmUser { get; set; }
 }
