@@ -35,6 +35,34 @@ function remove(element) {
     }
 }
 
+function toggleSelectAll(element) {
+    const checked = element.checked
+    const options = document.querySelectorAll(".yapilan_islem_bottom_container_1 .option-link input")
+
+    if (checked) {
+        options.forEach((option) => {
+            if (!mailsArray.includes(option.value)) {
+                mailsArray.push(option.value)
+            }
+        })
+    } else {
+        options.forEach((option) => {
+            mailsArray = mailsArray.filter((mail) => mail !== option.value)
+        })
+    }
+}
+
+function toggle(element) {
+    const checked = element.checked
+    const mail = element.value
+    
+    if (checked) {
+        mailsArray.push(mail)
+    } else {
+        mailsArray = mailsArray.filter((m) => m !== mail)
+    }
+}
+
 $("#comment-form").submit(function(e) {
     e.preventDefault();
 
@@ -42,16 +70,19 @@ $("#comment-form").submit(function(e) {
     let action = document.getElementById('action').value;
     let refNo = document.getElementById('refNo').value;
     let userName = document.getElementById('user').value;
-    
+    mailsArray.forEach(function (element) {
+       console.log(element); 
+    })
     if(action !== "") {
         // Submit the form data using AJAX
         $.ajax({
             url:"/DetailsPage/AddNewAction/",
             type:"POST",
-            data:{action:action,refNo:refNo},
+            traditional: true,
+            data:{action:action,refNo:refNo,mailsArray:mailsArray},
             dataType: "json",
             success: function(data){
-                if(data === "true") {
+                if(data !== "flase") {
                     let dateTime = new Date($.now());
                     const innerDivAction = document.getElementById('yapilan_islem');
                     let newElement = `<div class="card mb-4">

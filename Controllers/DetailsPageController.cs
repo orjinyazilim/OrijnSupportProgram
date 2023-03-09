@@ -7,6 +7,8 @@ using Microsoft.IdentityModel.Tokens;
 using OrjinDestek.Services.TokenService;
 using OrjinDestek.Services.TokenValidationService;
 using OrjinDestek.Services.UserService;
+using FluentEmail.Core;
+using FluentEmail.Smtp;
 
 namespace OrjinDestek.Controllers;
 
@@ -423,20 +425,29 @@ public class DetailsPageController : Controller
     
     //Add A New Action
     [HttpPost]
-    public IActionResult AddNewAction(string action ,int refNo )
+    public JsonResult AddNewAction(string action ,int refNo , string[] mailsArray)
     {
         try
         {
             _con.Open();
-            _query =
+           _query =
                 $"insert into TB_DESTEK_CEVAP (DESTEK_TARIHI,YAPILAN_ISLEM,BASLAMA_ZAMANI,BITIS_ZAMANI,TB_CRM_USER_ID,TB_DESTEK_ID) ";
             _query += $" values ('2023-01-13','{action}','11:14:44','11:12:00',{_userService.Getuser().TbCrmUserId},{refNo})";
             _cmd = new SqlCommand(_query, _con);
             _cmd.ExecuteNonQuery();
             
             _con.Close();
+            try
+            {
+                SendEamil(mailsArray, action);
+            }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+
             return Json("true");
-            
+
         }
         catch (Exception e)
         {
@@ -544,5 +555,39 @@ public class DetailsPageController : Controller
         }
     }
     
-   
+   //SEND EMAIL
+    public JsonResult SendEamil(string[] mailsArray , string? yapilanIslem)
+   {
+       if (mailsArray.Length != 0)
+       {
+           try
+           {
+               foreach (var s in mailsArray)
+               {
+                   var sender = new SmtpSender(() => new System.Net.Mail.SmtpClient("mail.orjin.net")
+                   {
+                       UseDefaultCredentials = false,
+                       Port = 587,
+                       Credentials = new System.Net.NetworkCredential("bilgi@orjin.net", "dzMxSbiR6"),
+                       EnableSsl = true,
+                   });
+
+                   var email = Email
+                       .From("destek@orjin.net")
+                       .To(s)
+                       .Subject("Destek Bilgisi")
+                       .Body(yapilanIslem);
+
+                   sender.SendAsync(email);
+               }
+               return Json(true);
+           }
+           catch (Exception e)
+           {
+               return Json(new { valid = "false", message = e.Message });
+           }
+       }
+
+       return Json("");
+   }
 }

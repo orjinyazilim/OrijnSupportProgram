@@ -115,11 +115,11 @@
 									<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="dropdown-text">Kişileri Seç</span>
 										<span class="caret"></span></button>
 									<ul class="dropdown-menu">
-										<li><a href="#"><label><input type="checkbox" class="selectall"/><span class="select-text"> Select</span> All</label></a></li>
+										<li><a href="#"><label><input type="checkbox" class="selectall" onchange="toggleSelectAll(this)"/><span class="select-text"> Select</span> All</label></a></li>
 										<li class="divider"></li>
 										@foreach (var item in Model.getPersonelEmails)
 										{
-											<li><a class="option-link" href="#"><label><input name='options[]' type="checkbox" class="option justone" value='Option 1 '/>@item</label></a></li>
+											<li><a class="option-link" href="#"><label><input onchange="toggle(this)" name='options[]' type="checkbox" class="option justone" value='@item'/>@item</label></a></li>
 										}
 
 									</ul>

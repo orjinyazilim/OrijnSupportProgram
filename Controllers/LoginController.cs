@@ -94,7 +94,7 @@ public class LoginController : Controller
             }),
             Issuer = issuer,
             Audience = audience,
-            Expires = DateTime.UtcNow.AddSeconds(10),
+            Expires = DateTime.UtcNow.AddHours(3),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
                 SecurityAlgorithms.HmacSha256Signature)
         };

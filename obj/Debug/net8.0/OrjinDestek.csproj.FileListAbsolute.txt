@@ -74,3 +74,5 @@
 /Users/Alborz/RiderProjects/OrjinDestek/OrjinDestek/obj/Debug/net8.0/OrjinDestek.genruntimeconfig.cache
 /Users/Alborz/RiderProjects/OrjinDestek/OrjinDestek/obj/Debug/net8.0/ref/OrjinDestek.dll
 /Users/alborz/RiderProjects/OrjinDestek/OrjinDestek/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/alborz/RiderProjects/OrjinDestek/OrjinDestek/bin/Debug/net8.0/FluentEmail.Core.dll
+/Users/alborz/RiderProjects/OrjinDestek/OrjinDestek/bin/Debug/net8.0/FluentEmail.Smtp.dll
