@@ -2,6 +2,15 @@
 const addMail = document.getElementById('add_mail');
 const inputMail = document.getElementById('email_input');
 const innerDivMail = document.getElementById('mail_tabs_menu');
+const rvzBilgisiHidden = document.getElementById('rvzBilgisi');
+const proje = document.querySelector("#Proje");
+const rvzSelector = document.querySelector("#RevizyonBilgisi");
+const rvzCheckBox = document.querySelector("#rvzCheckBox");
+
+const option = document.createElement('option');
+option.value = rvzBilgisiHidden.value;
+option.text = rvzBilgisiHidden.value;
+rvzSelector.appendChild(option);
 
 let mailsArray = [];
 let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -24,6 +33,72 @@ addMail.addEventListener('click',function() {
     }
     
 });
+
+rvzCheckBox.addEventListener('change',function () {
+    if(this.checked) {
+        rvzSelector.disabled = false;
+        $.ajax( {
+            url:'AddRecord/GetRevizyonBilgileri/',
+            dataType:'json',
+            data:{projeAdi:proje.value},
+            type:'GET',
+            success:function (data) {
+                if(data !== "false") {
+                    rvzSelector.innerHTML = '';
+                    data.forEach( function (element) {
+                        const option = document.createElement('option');
+                        option.value = element;
+                        option.text = element;
+                        rvzSelector.appendChild(option);
+                    });
+                    rvzBilgisiHidden.value = rvzSelector.value;
+                }else {
+                    alert("Revizyon bilgileri alınırken hata oluştu");
+                }
+            },
+            error:function (data) {
+                alert("Revizyon bilgilerine erişmedi");
+            }
+        });
+        getRvzBilgileri();
+    }else {
+        rvzBilgisiHidden.value = rvzSelector.value;
+        rvzSelector.disabled = true;
+    }
+});
+
+rvzSelector.addEventListener('change',function () {
+    rvzBilgisiHidden.value = rvzSelector.value;
+})
+
+function getRvzBilgileri() {
+    proje.addEventListener('change',function (event) {
+        if(!rvzSelector.disabled) {
+            $.ajax( {
+                url:'AddRecord/GetRevizyonBilgileri/',
+                dataType:'json',
+                data:{projeAdi:event.target.value},
+                type:'GET',
+                success:function (data) {
+                    if(data !== "false") {
+                        rvzSelector.innerHTML = '';
+                        data.forEach( function (element) {
+                            const option = document.createElement('option');
+                            option.value = element;
+                            option.text = element;
+                            rvzSelector.appendChild(option);
+                        });
+                    }else {
+                        alert("Revizyon bilgileri alınırken hata oluştu");
+                    }
+                },
+                error:function (data) {
+                    alert("Revizyon bilgilerine erişmedi");
+                }
+            });
+        }
+    });
+}
 
 function remove(element) {
     let str = element.textContent;
@@ -68,6 +143,7 @@ $("#comment-form").submit(function(e) {
 
     // Get the form data
     let action = document.getElementById('action').value;
+    let konu = document.getElementById('Konu').value;
     let refNo = document.getElementById('refNo').value;
     let userName = document.getElementById('user').value;
     mailsArray.forEach(function (element) {
@@ -79,7 +155,7 @@ $("#comment-form").submit(function(e) {
             url:"/DetailsPage/AddNewAction/",
             type:"POST",
             traditional: true,
-            data:{action:action,refNo:refNo,mailsArray:mailsArray},
+            data:{action:action,refNo:refNo,mailsArray:mailsArray,konu:konu},
             dataType: "json",
             success: function(data){
                 if(data !== "flase") {
@@ -98,12 +174,28 @@ $("#comment-form").submit(function(e) {
                 </div>`;
                     innerDivAction.innerHTML += newElement;
                     document.getElementById('action').value = "";
+                    cuteAlert({
+                        type: "success",
+                        title: "Başarılı",
+                        message: "Mesajınız başarılı bir şekilde iletildi.",
+                        buttonText: "Tamam",
+                    })
                 } else {
-                    alert(data)
+                    cuteAlert({
+                        type: "error",
+                        title: "Hata",
+                        message: "Mesajınız başarılı bir şekilde iletilmedi.",
+                        buttonText: "Tamam",
+                    })
                 }
             } ,
             error: function(data) {
-                alert(data);
+                cuteAlert({
+                    type: "error",
+                    title: "Hata",
+                    message: "Bağlantı hatası",
+                    buttonText: "Tamam",
+                })
             }
         });
     } else {

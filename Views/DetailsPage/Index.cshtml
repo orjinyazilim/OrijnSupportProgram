@@ -30,7 +30,13 @@
 
 <!doctype html>
 <html class="no-js" lang="en">
-
+<script type="text/javascript">
+		if (localStorage.getItem('isLoggedIn') !== 'true') {
+		 function preventBack() { window.history.forward(); }
+                 setTimeout("preventBack()", 0);
+                 window.onunload = function () { return null };
+		 }
+    </script>
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -81,7 +87,7 @@
 				<div class="col-md-12 mb-3" style="margin-top: 10px">
 					<div class="tab">
 						<button class="tablinks" onclick="openTab(event, 'kayit_detay')" name="kayit_detay">Kayıt Detayı</button>
-						<button class="tablinks" onclick="openTab(event, 'yapilan_islemler')" name="yapilan_islemler">Yapılan İşlemler</button>
+						<button class="tablinks" onclick="openTab(event, 'yapilan_islemler')" name="yapilan_islemler">Yapılan İşlemler (@Model.getActionsNumber)</button>
 					</div>
 
 					<div id="yapilan_islemler" class="tabcontent">
@@ -155,6 +161,7 @@
 										<option selected="selected">@Model.getRecord.Proje</option>
 										@foreach (var item in Model.getProjeler)
 										{
+											if(item.Equals(Model.getRecord.Proje)) continue;
 											<option>@item</option>
 										}
 									</select>
@@ -170,8 +177,9 @@
 									<input data-toggle="modal" data-target=".bd-example-modal-lg" type="text" class="form-control" id="validationCustom04" value="@Model.getRecord.Firma" disabled="disabled">
 								</div>
 								<div class="col-md-4 mb-3" style="margin-top: 10px">
-									<label for="validationCustom05">Reviziyon Bilgisi</label>
-									<input type="text" class="form-control" id="validationCustom05" required>
+									<span style="font-weight: bold">Revizyon Bilgisi</span> <input id="rvzCheckBox" type="checkbox"/>
+									<select class="form-control" id="RevizyonBilgisi" name="RevizyonBilgisi" required disabled="disabled"></select>
+									<input type="hidden" id="rvzBilgisi" name="rvzBilgisi" value="@Model.getRecord.RevizyonBilgisi"/>
 								</div>
 								<div class="col-md-4 mb-3" style="margin-top: 10px">
 									<label for="validationCustom06">Geçen Süre</label>
@@ -213,6 +221,7 @@
 										<option selected="selected">@Model.getRecord.DestekTipi</option>
 										@foreach (var item in Model.getDestekTipleri)
 										{
+											if(item.Equals(Model.getRecord.DestekTipi)) continue;
 											<option>@item</option>
 										}
 									</select>
@@ -223,6 +232,7 @@
 										<option selected="selected">@Model.getRecord.DestekPersonel</option>
 										@foreach (var item in Model.getDestekPersonel)
 										{
+											if(item.Equals(Model.getRecord.DestekPersonel)) continue;
 											<option>@item</option>
 										}
 									</select>
@@ -240,6 +250,7 @@
 										<option selected="selected">@Model.getRecord.Konu</option>
 										@foreach (var item in Model.getDestekKonusu)
 										{
+											if(item.Equals(Model.getRecord.Konu)) continue;
 											<option>@item</option>
 										}
 									</select>
@@ -248,9 +259,26 @@
 									<label for="Oncelik">Öncelik</label>
 									<select data-toggle="modal" type="text" class="form-control" id="Oncelik" name="Oncelik" required>
 										<option selected="selected">@Model.getRecord.Oncelik</option>
-										<option>ÇOK ACİL</option>
-										<option>ACİL</option>
-										<option>NORMAL</option>
+										@if (Model.getRecord.Oncelik.Equals("ÇOK ACİL"))
+										{
+											<option>ACİL</option>
+											<option>NORMAL</option>
+										} else if (Model.getRecord.Oncelik.Equals("ACİL"))
+										{
+											<option>ÇOK ACİL</option>
+											<option>NORMAL</option>
+										}
+										else if(Model.getRecord.Oncelik.Equals("NORMAL"))
+										{
+											<option>ACİL</option>
+											<option>ÇOK ACİL</option>
+										}
+										else
+										{
+											<option>ÇOK ACİL</option>
+											<option>ACİL</option>
+											<option>NORMAL</option>
+										}
 									</select>
 								</div>
 							</div>
@@ -266,6 +294,7 @@
 										<option selected="selected">@Model.getRecord.DestekSekli</option>
 										@foreach (var item in Model.getDestekSekli)
 										{
+											if(item.Equals(Model.getRecord.DestekSekli)) continue;
 											<option>@item</option>
 										}
 									</select>
@@ -274,9 +303,15 @@
 									<label for="Durum">Durum</label>
 									<select data-toggle="modal" type="text" class="form-control" id="Durum" name="Durum" required>
 										<option selected="selected">@Model.getRecord.Durum</option>
-										<option>KAPALI</option>
-										<option>AÇIK</option>
-										<!--@foreach (var item in Model.getDurumListe)
+										@if (Model.getRecord.Durum.Equals("KAPALI"))
+										{
+											<option>AÇIK</option>
+										}
+										else
+										{
+											<option>KAPALI</option>
+										}
+										       <!--@foreach (var item in Model.getDurumListe)
 										    {
 											    <option>@item</option>
 										    } -->
@@ -343,6 +378,10 @@
 		<script src="js/modal_search.js"></script>
 		<!-- detailMainJsCodes.js -->
 		<script src="js/detailsMainJsCodes.js"></script>
+		<!-- CUTE ALERT JS -->
+		<script src="js/cute-alert.js"></script>
+		<!-- Log In JS -->
+	    <script src="js/login.js"></script>
 
 	</body>
 </html>

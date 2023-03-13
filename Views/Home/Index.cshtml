@@ -6,7 +6,13 @@
 
 <!doctype html>
 <html class="no-js" lang="en">
-
+<script type="text/javascript">
+		if (localStorage.getItem('isLoggedIn') !== 'true') {
+		 function preventBack() { window.history.forward(); }
+                 setTimeout("preventBack()", 0);
+                 window.onunload = function () { return null };
+		 }
+    </script>
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -86,7 +92,6 @@
 
 
 <body>
-<h1 style="text-align: center ; margin-top: 10px"> <span class="table-project-n text-info">Orjin</span> Yazılım </h1>
 <div class="data-table-area mg-b-15" style="margin-top: 10px ; border-radius: 10px">
             <div class="container-fluid">
                 <div class="row">
@@ -143,15 +148,50 @@
 		                                {
 			                                <td><div style="background-color: red ; width: 30px ; height: 20px"></div></td>
 		                                }
-		                                <td><a asp-controller="DetailsPage" asp-action="Index" asp-route-refNo="@item.RefNo" asp-route-firmaAdi="@item.Firma" asp-route-token="@Model.token">@item.RefNo</a></td>
-		                                <td><a asp-controller="DetailsPage" asp-action="Index" asp-route-refNo="@item.RefNo" asp-route-firmaAdi="@item.Firma" asp-route-token="@Model.token">@item.Durum</a></td>
-		                                <td><a asp-controller="DetailsPage" asp-action="Index" asp-route-refNo="@item.RefNo" asp-route-firmaAdi="@item.Firma" asp-route-token="@Model.token">@item.Tarih</a></td>
-		                                <td><a asp-controller="DetailsPage" asp-action="Index" asp-route-refNo="@item.RefNo" asp-route-firmaAdi="@item.Firma" asp-route-token="@Model.token">@item.Firma</a></td>
-		                                <td><a asp-controller="DetailsPage" asp-action="Index" asp-route-refNo="@item.RefNo" asp-route-firmaAdi="@item.Firma" asp-route-token="@Model.token">@item.Proje</a></td>
-		                                <td><a asp-controller="DetailsPage" asp-action="Index" asp-route-refNo="@item.RefNo" asp-route-firmaAdi="@item.Firma" asp-route-token="@Model.token">@item.Konu</a></td>
-		                                <td><a asp-controller="DetailsPage" asp-action="Index" asp-route-refNo="@item.RefNo" asp-route-firmaAdi="@item.Firma" asp-route-token="@Model.token">@item.TalepEden</a></td>
-		                                <td><a asp-controller="DetailsPage" asp-action="Index" asp-route-refNo="@item.RefNo" asp-route-firmaAdi="@item.Firma" asp-route-token="@Model.token">@item.DestekPersonel</a></td>
-		                                <td><a asp-controller="DetailsPage" asp-action="Index" asp-route-refNo="@item.RefNo" asp-route-firmaAdi="@item.Firma" asp-route-token="@Model.token">@item.GecenSure</a></td>
+		                                <td><a asp-controller="DetailsPage" 
+		                                       asp-action="Index" asp-route-refNo="@item.RefNo" 
+		                                       asp-route-firmaAdi="@item.Firma" asp-route-dskRevId="@item.RevizyonId"
+		                                       asp-route-token="@Model.token">@item.RefNo</a></td>
+		                                
+		                                <td><a asp-controller="DetailsPage" 
+		                                       asp-action="Index" asp-route-refNo="@item.RefNo" 
+		                                       asp-route-firmaAdi="@item.Firma" asp-route-dskRevId="@item.RevizyonId"
+		                                       asp-route-token="@Model.token">@item.Durum</a></td>
+		                                
+		                                <td><a asp-controller="DetailsPage" 
+		                                       asp-action="Index" asp-route-refNo="@item.RefNo" 
+		                                       asp-route-firmaAdi="@item.Firma" asp-route-dskRevId="@item.RevizyonId" 
+		                                       asp-route-token="@Model.token">@item.Tarih</a></td>
+		                                
+		                                <td><a asp-controller="DetailsPage" 
+		                                       asp-action="Index" asp-route-refNo="@item.RefNo" 
+		                                       asp-route-firmaAdi="@item.Firma" asp-route-dskRevId="@item.RevizyonId"
+		                                       asp-route-token="@Model.token">@item.Firma</a></td>
+		                                
+		                                <td><a asp-controller="DetailsPage" 
+		                                       asp-action="Index" asp-route-refNo="@item.RefNo" 
+		                                       asp-route-firmaAdi="@item.Firma" asp-route-dskRevId="@item.RevizyonId"
+		                                       asp-route-token="@Model.token">@item.Proje</a></td>
+		                                
+		                                <td><a asp-controller="DetailsPage" 
+		                                       asp-action="Index" asp-route-refNo="@item.RefNo" 
+		                                       asp-route-firmaAdi="@item.Firma" asp-route-dskRevId="@item.RevizyonId"
+		                                       asp-route-token="@Model.token">@item.Konu</a></td>
+		                                
+		                                <td><a asp-controller="DetailsPage" 
+		                                       asp-action="Index" asp-route-refNo="@item.RefNo" 
+		                                       asp-route-firmaAdi="@item.Firma" asp-route-dskRevId="@item.RevizyonId" 
+		                                       asp-route-token="@Model.token">@item.TalepEden</a></td>
+		                                
+		                                <td><a asp-controller="DetailsPage" 
+		                                       asp-action="Index" asp-route-refNo="@item.RefNo" 
+		                                       asp-route-firmaAdi="@item.Firma" asp-route-dskRevId="@item.RevizyonId"
+		                                       asp-route-token="@Model.token">@item.DestekPersonel</a></td>
+		                                
+		                                <td><a asp-controller="DetailsPage" 
+		                                       asp-action="Index" asp-route-refNo="@item.RefNo" 
+		                                       asp-route-firmaAdi="@item.Firma" asp-route-dskRevId="@item.RevizyonId"
+		                                       asp-route-token="@Model.token">@item.GecenSure</a></td>
 	                                </tr>
                                 }
 									
@@ -235,6 +275,8 @@
     <!-- main JS
 		============================================ -->
 	<script src="js/main.js"></script>
+	<!-- Log In JS -->
+	<script src="js/login.js"></script>
 	
 
 </body>

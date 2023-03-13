@@ -60,6 +60,7 @@ public class HomeController : Controller
                 ,CP.CPS_ISIM as TalepEden
                 ,CU3.USER_NAME AS DestekPersonel
 			    ,dbo.UDF_BEKLEME_SURESI_HESAP(TB_DESTEK_ID) AS GecenSure
+                ,DSK_REVIZYON_Id
             
             FROM [ORJINCRM].[dbo].[TB_DESTEK] D
                 LEFT OUTER JOIN TB_KOD K ON (D.DSK_SONUC_ID=K.TB_KOD_ID)
@@ -86,14 +87,15 @@ public class HomeController : Controller
                     {
                         DestekTabloModel destekTabloModel = new DestekTabloModel();
                         destekTabloModel.RefNo = Convert.ToInt32(dr["RefNo"]);
-                        destekTabloModel.Durum = dr["Durum"] != DBNull.Value ? dr["Durum"].ToString() : "Boş";
-                        destekTabloModel.Tarih = dr["Tarih"] != DBNull.Value ? dr["Tarih"].ToString() : "Boş";
-                        destekTabloModel.Firma = dr["Firma"] != DBNull.Value ? dr["Firma"].ToString() : "Boş";
-                        destekTabloModel.Proje = dr["Proje"] != DBNull.Value ? dr["Proje"].ToString() : "Boş";
-                        destekTabloModel.Konu = dr["Konu"] != DBNull.Value ? dr["Konu"].ToString() : "Boş";
-                        destekTabloModel.TalepEden = dr["TalepEden"] != DBNull.Value ? dr["TalepEden"].ToString() : "Boş";
-                        destekTabloModel.DestekPersonel = dr["DestekPersonel"] != DBNull.Value ? dr["DestekPersonel"].ToString() : "Boş";
-                        destekTabloModel.GecenSure = dr["GecenSure"] != DBNull.Value ? dr["GecenSure"].ToString() : "Boş";
+                        destekTabloModel.Durum = dr["Durum"] != DBNull.Value ? dr["Durum"].ToString() : "";
+                        destekTabloModel.Tarih = dr["Tarih"] != DBNull.Value ? dr["Tarih"].ToString() : "";
+                        destekTabloModel.Firma = dr["Firma"] != DBNull.Value ? dr["Firma"].ToString() : "";
+                        destekTabloModel.Proje = dr["Proje"] != DBNull.Value ? dr["Proje"].ToString() : "";
+                        destekTabloModel.Konu = dr["Konu"] != DBNull.Value ? dr["Konu"].ToString() : "";
+                        destekTabloModel.TalepEden = dr["TalepEden"] != DBNull.Value ? dr["TalepEden"].ToString() : "";
+                        destekTabloModel.DestekPersonel = dr["DestekPersonel"] != DBNull.Value ? dr["DestekPersonel"].ToString() : "";
+                        destekTabloModel.GecenSure = dr["GecenSure"] != DBNull.Value ? dr["GecenSure"].ToString() : "";
+                        destekTabloModel.RevizyonId = (int?)(Convert.ToInt32(dr["DSK_REVIZYON_ID"]) != 0 ? dr["DSK_REVIZYON_ID"] : 0);
                         tabloList.Add(destekTabloModel);
                     }
                 }

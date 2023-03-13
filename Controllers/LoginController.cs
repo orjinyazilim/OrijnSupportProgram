@@ -59,7 +59,7 @@ public class LoginController : Controller
                 while (rd.Read())
                 {
                     loggedInUser.TbCrmUserId = Convert.ToInt32(rd["TB_CRM_USER_ID"]);
-                    loggedInUser.UserName = rd["USER_NAME"] != DBNull.Value ? rd["USER_NAME"].ToString() : "Boş";
+                    loggedInUser.UserName = rd["USER_NAME"] != DBNull.Value ? rd["USER_NAME"].ToString() : "";
                 }
                 _userService.SetUser(loggedInUser);
                 _con.Close();

@@ -65,7 +65,7 @@ public class AddRecordController : Controller
             {
                 while (_rd.Read())
                 {
-                    _variable = _rd["DEGER"] != DBNull.Value ? _rd["DEGER"].ToString() : "Boş";
+                    _variable = _rd["DEGER"] != DBNull.Value ? _rd["DEGER"].ToString() : "";
                     durumListe.Add(_variable!);
                 }
             }
@@ -94,7 +94,7 @@ public class AddRecordController : Controller
             {
                 while (_rd.Read())
                 {
-                    _variable = _rd["USER_NAME"] != DBNull.Value ? _rd["USER_NAME"].ToString() : "Boş";
+                    _variable = _rd["USER_NAME"] != DBNull.Value ? _rd["USER_NAME"].ToString() : "";
                     destekPersonelListe.Add(_variable!);
                 }
             }
@@ -124,7 +124,7 @@ public class AddRecordController : Controller
             {
                 while (_rd.Read())
                 {
-                    _variable = _rd["DEGER"] != DBNull.Value ? _rd["DEGER"].ToString() : "Boş";
+                    _variable = _rd["DEGER"] != DBNull.Value ? _rd["DEGER"].ToString() : "";
                     destekSekliList.Add(_variable!);
                 }
             }
@@ -154,7 +154,7 @@ public class AddRecordController : Controller
             {
                 while (_rd.Read())
                 {
-                    _variable = _rd["TB_DESTEK_KONU_BASLIK"] != DBNull.Value ? _rd["TB_DESTEK_KONU_BASLIK"].ToString() : "Boş";
+                    _variable = _rd["TB_DESTEK_KONU_BASLIK"] != DBNull.Value ? _rd["TB_DESTEK_KONU_BASLIK"].ToString() : "";
                     konular.Add(_variable!);
                 }
             }
@@ -184,7 +184,7 @@ public class AddRecordController : Controller
             {
                 while (_rd.Read())
                 {
-                    _variable = _rd["DEGER"] != DBNull.Value ? _rd["DEGER"].ToString() : "Boş";
+                    _variable = _rd["DEGER"] != DBNull.Value ? _rd["DEGER"].ToString() : "";
                     destekTipleri.Add(_variable!);
                 }
             }
@@ -214,7 +214,7 @@ public class AddRecordController : Controller
             {
                 while (_rd.Read())
                 {
-                    _variable = _rd["CARI_UNVAN"] != DBNull.Value ? _rd["CARI_UNVAN"].ToString() : "Boş";
+                    _variable = _rd["CARI_UNVAN"] != DBNull.Value ? _rd["CARI_UNVAN"].ToString() : "";
                     firmalarListe.Add(_variable!);
                 }
             }
@@ -247,7 +247,7 @@ public class AddRecordController : Controller
                 {
                     while (_rd.Read())
                     {
-                        _variable = _rd["CPS_ISIM"] != DBNull.Value ? _rd["CPS_ISIM"].ToString() : "Boş";
+                        _variable = _rd["CPS_ISIM"] != DBNull.Value ? _rd["CPS_ISIM"].ToString() : "";
                         gorusulenKisilerListe.Add(_variable!);
                     }
                 }
@@ -282,7 +282,7 @@ public class AddRecordController : Controller
                 {
                     while (_rd.Read())
                     {
-                        _variable = _rd["CPS_MAIL"] != DBNull.Value ? _rd["CPS_MAIL"].ToString() : "Boş";
+                        _variable = _rd["CPS_MAIL"] != DBNull.Value ? _rd["CPS_MAIL"].ToString() : "";
                     }
                 }
 
@@ -316,7 +316,7 @@ public class AddRecordController : Controller
                 {
                     while (_rd.Read())
                     {
-                        _variable = _rd["CPS_CEP_TEL"] != DBNull.Value ? _rd["CPS_CEP_TEL"].ToString() : "Boş";
+                        _variable = _rd["CPS_CEP_TEL"] != DBNull.Value ? _rd["CPS_CEP_TEL"].ToString() : "";
                     }
                 }
 
@@ -347,7 +347,7 @@ public class AddRecordController : Controller
             {
                 while (_rd.Read())
                 {
-                    _variable = _rd["TANIM"] != DBNull.Value ? _rd["TANIM"].ToString() : "Boş";
+                    _variable = _rd["TANIM"] != DBNull.Value ? _rd["TANIM"].ToString() : "";
                     projeler.Add(_variable!);
                 }
             }
@@ -423,18 +423,9 @@ public class AddRecordController : Controller
         }
         try
         {   _conToPm.Open();
-            _query = $" DECLARE @projeId INT ; DECLARE @projetanim VARCHAR(50); SELECT @projetanim =   [TANIM] FROM [ORJINCRM].[dbo].[TB_PROGRAM] WHERE TANIM='{model.Proje}' ";
-            _query += @" SET @projeId =  			
-	                    CASE 
-			                    WHEN @projetanim = 'ATSPRO'  THEN  10
-			                    WHEN @projetanim = 'PBTPRO'  THEN  16
-			                    WHEN @projetanim = 'PBTPLUS'  THEN  2
-			                    WHEN @projetanim = 'OMEGA'  THEN  21
-			                    WHEN @projetanim = 'ORJİN SUPPORT'  THEN  34
-			                    WHEN @projetanim = 'ORION'  THEN  30
-	                    end;";
+            _query = $"  select TB_REVIZYON_ID from TB_REVIZYON WHERE TANIM = '{model.RevizyonBilgisi}' ";
             _cmd = new SqlCommand(_query, _conToPm);
-            var projeId = Convert.ToInt32(_cmd.ExecuteScalar());
+            var rvzId = Convert.ToInt32(_cmd.ExecuteScalar());
             _conToPm.Close();
             _query = $" DECLARE @firmaId INT; SELECT @firmaId = TB_CARI_ID FROM TB_CARI WHERE CARI_UNVAN = '{model.Firma}' ";
 
@@ -480,7 +471,7 @@ public class AddRecordController : Controller
                     ,DSK_REVIZYON_ID
                 ) ";
             _query += 
-                $" VALUES (@firmaId , @gorusulenKisiId ,'{model.EmailHesabi}', '{model.TelNo}' , @projeId , @destekTipiId , @konuId , '{model.Konu}' , @destekSekliId ,@tarih, @saat , @perSonelId , {oncelikId} , 0 , '{model.Aciklama}' , {projeId}) ";
+                $" VALUES (@firmaId , @gorusulenKisiId ,'{model.EmailHesabi}', '{model.TelNo}' , @projeId , @destekTipiId , @konuId , '{model.Konu}' , @destekSekliId ,@tarih, @saat , @perSonelId , {oncelikId} , 0 , '{model.Aciklama}' , {rvzId}) ";
             
             using (SqlCommand command = new SqlCommand(_query,_con))
             {

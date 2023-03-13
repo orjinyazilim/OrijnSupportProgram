@@ -15,6 +15,7 @@ namespace OrjinDestek.Controllers;
 public class DetailsPageController : Controller
 {
     private SqlConnection _con;
+    private SqlConnection _conToPm;
     private SqlCommand _cmd = null!;
     private string? _query;
     private SqlDataReader _rd = null!;
@@ -26,19 +27,21 @@ public class DetailsPageController : Controller
     public DetailsPageController(IConfiguration configuration , IUsuerService userService , IToken token , ITokenValidate tokenValidate)
     {
         _con = new SqlConnection(configuration.GetConnectionString("Default"));
+        _conToPm = new SqlConnection(configuration.GetConnectionString("Orjinpm"));
         _userService = userService;
         _token = token;
         _tokenValidate = tokenValidate;
     }
     
     // GET
-    public IActionResult Index(int refNo , string firmaAdi , string token)
+    public IActionResult Index(int refNo , string firmaAdi , string token , int dskRevId)
     {
         if (!token.IsNullOrEmpty() && token.Equals(_token.GetToken()) && _tokenValidate.IsTokenValid(token))
         {
             dynamic dy = new ExpandoObject();
-            dy.getRecord = GetRecordDetail(refNo);
+            dy.getRecord = GetRecordDetail(refNo , dskRevId);
             dy.getActions = GetCompletedActions(refNo);
+            dy.getActionsNumber = GetActionsNumber(refNo);
             dy.getProjeler = GetProjeler();
             dy.getDestekTipleri = GetDestekTipiListe();
             dy.getDestekPersonel = GetDestekPersonelList();
@@ -57,10 +60,26 @@ public class DetailsPageController : Controller
 
 
     //GET RECORD DETAIL
-    public DestekTabloModel GetRecordDetail(int refNo)
+    public DestekTabloModel GetRecordDetail(int refNo , int dskRevId)
     {
         _con.Open();
-        string query = @"SELECT
+        string query = $"select TANIM from TB_REVIZYON WHERE TB_REVIZYON_ID = {dskRevId}";
+        string? rvzTanim = "";
+        if (dskRevId != 0)
+        {
+            _conToPm.Open();
+            _cmd = new SqlCommand(query, _conToPm);
+            _rd = _cmd.ExecuteReader();
+            if (_rd != null)
+            {
+                while (_rd.Read())
+                {
+                    rvzTanim = _rd["TANIM"] != DBNull.Value ? _rd["TANIM"].ToString() : "";
+                }
+            }
+            _conToPm.Close();
+        }
+        query = @"SELECT
         D.TB_DESTEK_ID as RefNo
             ,case
         WHEN [DSK_KAPALI]=1 then 'KAPALI'
@@ -110,21 +129,22 @@ public class DetailsPageController : Controller
                 while (dr.Read())
                 {
                     destekTabloModel.RefNo = Convert.ToInt32(dr["RefNo"]);
-                    destekTabloModel.Durum = dr["Durum"] != DBNull.Value ? dr["Durum"].ToString() : "Boş";
-                    destekTabloModel.Tarih = dr["Tarih"] != DBNull.Value ? dr["Tarih"].ToString() : "Boş";
-                    destekTabloModel.Firma = dr["Firma"] != DBNull.Value ? dr["Firma"].ToString() : "Boş";
-                    destekTabloModel.Proje = dr["Proje"] != DBNull.Value ? dr["Proje"].ToString() : "Boş";
-                    destekTabloModel.Konu = dr["Konu"] != DBNull.Value ? dr["Konu"].ToString() : "Boş";
-                    destekTabloModel.TalepEden = dr["TalepEden"] != DBNull.Value ? dr["TalepEden"].ToString() : "Boş";
-                    destekTabloModel.DestekPersonel = dr["DestekPersonel"] != DBNull.Value ? dr["DestekPersonel"].ToString() : "Boş";
-                    destekTabloModel.GecenSure = dr["GecenSure"] != DBNull.Value ? dr["GecenSure"].ToString() : "Boş";
-                    destekTabloModel.EmailHesabi = dr["Email"] != DBNull.Value ? dr["Email"].ToString() : "Boş";
-                    destekTabloModel.TelNo = dr["TelNo"] != DBNull.Value ? dr["TelNo"].ToString() : "Boş";
-                    destekTabloModel.Aciklama = dr["Aciklama"] != DBNull.Value ? dr["Aciklama"].ToString() : "Boş";
-                    destekTabloModel.Oncelik = dr["ONCELIK"] != DBNull.Value ? dr["ONCELIK"].ToString() : "Boş";
-                    destekTabloModel.DestekTipi = dr["DestekTipi"] != DBNull.Value ? dr["DestekTipi"].ToString() : "Boş";
-                    destekTabloModel.DestekSekli = dr["DestekSekli"] != DBNull.Value ? dr["DestekSekli"].ToString() : "Boş";
-                    
+                    destekTabloModel.Durum = dr["Durum"] != DBNull.Value ? dr["Durum"].ToString() : "";
+                    destekTabloModel.Tarih = dr["Tarih"] != DBNull.Value ? dr["Tarih"].ToString() : "";
+                    destekTabloModel.Firma = dr["Firma"] != DBNull.Value ? dr["Firma"].ToString() : "";
+                    destekTabloModel.Proje = dr["Proje"] != DBNull.Value ? dr["Proje"].ToString() : "";
+                    destekTabloModel.Konu = dr["Konu"] != DBNull.Value ? dr["Konu"].ToString() : "";
+                    destekTabloModel.TalepEden = dr["TalepEden"] != DBNull.Value ? dr["TalepEden"].ToString() : "";
+                    destekTabloModel.DestekPersonel = dr["DestekPersonel"] != DBNull.Value ? dr["DestekPersonel"].ToString() : "";
+                    destekTabloModel.GecenSure = dr["GecenSure"] != DBNull.Value ? dr["GecenSure"].ToString() : "";
+                    destekTabloModel.EmailHesabi = dr["Email"] != DBNull.Value ? dr["Email"].ToString() : "";
+                    destekTabloModel.TelNo = dr["TelNo"] != DBNull.Value ? dr["TelNo"].ToString() : "";
+                    destekTabloModel.Aciklama = dr["Aciklama"] != DBNull.Value ? dr["Aciklama"].ToString() : "";
+                    destekTabloModel.Oncelik = dr["ONCELIK"] != DBNull.Value ? dr["ONCELIK"].ToString() : "";
+                    destekTabloModel.DestekTipi = dr["DestekTipi"] != DBNull.Value ? dr["DestekTipi"].ToString() : "";
+                    destekTabloModel.DestekSekli = dr["DestekSekli"] != DBNull.Value ? dr["DestekSekli"].ToString() : "";
+                    destekTabloModel.RevizyonBilgisi = rvzTanim;
+
                 }
             }
             
@@ -153,7 +173,7 @@ public class DetailsPageController : Controller
             {
                 while (_rd.Read())
                 {
-                    _variable = _rd["TANIM"] != DBNull.Value ? _rd["TANIM"].ToString() : "Boş";
+                    _variable = _rd["TANIM"] != DBNull.Value ? _rd["TANIM"].ToString() : "";
                     projeler.Add(_variable!);
                 }
             }
@@ -184,7 +204,7 @@ public class DetailsPageController : Controller
             {
                 while (_rd.Read())
                 {
-                    _variable = _rd["DEGER"] != DBNull.Value ? _rd["DEGER"].ToString() : "Boş";
+                    _variable = _rd["DEGER"] != DBNull.Value ? _rd["DEGER"].ToString() : "";
                     destekTipleri.Add(_variable!);
                 }
             }
@@ -214,7 +234,7 @@ public class DetailsPageController : Controller
             {
                 while (_rd.Read())
                 {
-                    _variable = _rd["USER_NAME"] != DBNull.Value ? _rd["USER_NAME"].ToString() : "Boş";
+                    _variable = _rd["USER_NAME"] != DBNull.Value ? _rd["USER_NAME"].ToString() : "";
                     destekPersonelListe.Add(_variable!);
                 }
             }
@@ -244,7 +264,7 @@ public class DetailsPageController : Controller
             {
                 while (_rd.Read())
                 {
-                    _variable = _rd["DEGER"] != DBNull.Value ? _rd["DEGER"].ToString() : "Boş";
+                    _variable = _rd["DEGER"] != DBNull.Value ? _rd["DEGER"].ToString() : "";
                     durumListe.Add(_variable!);
                 }
             }
@@ -275,7 +295,7 @@ public class DetailsPageController : Controller
                 {
                     while (_rd.Read())
                     {
-                        _variable = _rd["CPS_ISIM"] != DBNull.Value ? _rd["CPS_ISIM"].ToString() : "Boş";
+                        _variable = _rd["CPS_ISIM"] != DBNull.Value ? _rd["CPS_ISIM"].ToString() : "";
                         gorusulenKisilerListe.Add(_variable!);
                     }
                 }
@@ -307,7 +327,7 @@ public class DetailsPageController : Controller
             {
                 while (_rd.Read())
                 {
-                    _variable = _rd["DEGER"] != DBNull.Value ? _rd["DEGER"].ToString() : "Boş";
+                    _variable = _rd["DEGER"] != DBNull.Value ? _rd["DEGER"].ToString() : "";
                     destekSekliList.Add(_variable!);
                 }
             }
@@ -337,7 +357,7 @@ public class DetailsPageController : Controller
             {
                 while (_rd.Read())
                 {
-                    _variable = _rd["TB_DESTEK_KONU_BASLIK"] != DBNull.Value ? _rd["TB_DESTEK_KONU_BASLIK"].ToString() : "Boş";
+                    _variable = _rd["TB_DESTEK_KONU_BASLIK"] != DBNull.Value ? _rd["TB_DESTEK_KONU_BASLIK"].ToString() : "";
                     konular.Add(_variable!);
                 }
             }
@@ -406,10 +426,10 @@ public class DetailsPageController : Controller
                 while (_rd.Read())
                 {
                     TbDestekCevap entity = new TbDestekCevap();
-                    entity.YapilanIslem = _rd["YAPILAN_ISLEM"] != DBNull.Value ? _rd["YAPILAN_ISLEM"].ToString() : "Boş";
-                    entity.CrmUser = _rd["USER_NAME"] != DBNull.Value ? _rd["USER_NAME"].ToString() : "Boş";
-                    entity.DestekTarihi = (_rd["DESTEK_TARIHI"] != DBNull.Value ? _rd["DESTEK_TARIHI"] : "Boş") as DateTime?;
-                    entity.BaslamaZamani = (string?)(_rd["BASLAMA_ZAMANI"] != DBNull.Value ? _rd["BASLAMA_ZAMANI"] : "Boş");
+                    entity.YapilanIslem = _rd["YAPILAN_ISLEM"] != DBNull.Value ? _rd["YAPILAN_ISLEM"].ToString() : "";
+                    entity.CrmUser = _rd["USER_NAME"] != DBNull.Value ? _rd["USER_NAME"].ToString() : "";
+                    entity.DestekTarihi = (_rd["DESTEK_TARIHI"] != DBNull.Value ? _rd["DESTEK_TARIHI"] : "") as DateTime?;
+                    entity.BaslamaZamani = (string?)(_rd["BASLAMA_ZAMANI"] != DBNull.Value ? _rd["BASLAMA_ZAMANI"] : "");
                     actions.Add(entity);
                 }
             }
@@ -423,9 +443,20 @@ public class DetailsPageController : Controller
         }
     }
     
+    //GET ACTIONS NUMBER
+    public int GetActionsNumber(int refNo)
+    {
+        _query = $"select count(*) from TB_DESTEK_CEVAP D LEFT JOIN TB_CRM_USER C ON  (D.TB_CRM_USER_ID=C.TB_CRM_USER_ID) WHERE TB_DESTEK_ID = {refNo}";
+        _con.Open();
+        _cmd = new SqlCommand(_query, _con);
+        int value = (int)_cmd.ExecuteScalar();
+        _con.Close();
+        return value;
+    }
+    
     //Add A New Action
     [HttpPost]
-    public JsonResult AddNewAction(string action ,int refNo , string[] mailsArray)
+    public JsonResult AddNewAction(string action ,int refNo , string[] mailsArray , string? konu)
     {
         try
         {
@@ -439,7 +470,7 @@ public class DetailsPageController : Controller
             _con.Close();
             try
             {
-                SendEamil(mailsArray, action);
+                SendEmail(mailsArray, action , konu);
             }
             catch (Exception e)
             {
@@ -500,11 +531,12 @@ public class DetailsPageController : Controller
 
     //UPDATE THE RECORD
     [HttpPost]
-    public IActionResult UpdateTheRecord(int refNo , string proje , string destekTipi , string userEmail , string userTelNo,
+    public IActionResult UpdateTheRecord(int refNo , string proje , string destekTipi , string userEmail , string userTelNo, string rvzBilgisi,
         string destekPersonel , string konu , string oncelik , string destekSekli , string durum , string istekler, string talepEden)
     {
         if (userEmail.IsNullOrEmpty()) userEmail = "";
         if (userTelNo.IsNullOrEmpty()) userTelNo = "";
+        if (rvzBilgisi.IsNullOrEmpty()) rvzBilgisi = "";
         
         int oncelikId = 0;
         if (!oncelik.IsNullOrEmpty())
@@ -522,6 +554,9 @@ public class DetailsPageController : Controller
         }
         try
         {
+            _conToPm.Open();
+            _cmd = new SqlCommand($"select TB_REVIZYON_ID from TB_REVIZYON WHERE TANIM = '{rvzBilgisi}'", _conToPm);
+            int? rvzId = (int?)_cmd.ExecuteScalar();
             _con.Open();
             _query =
                 $" DECLARE @projeId INT; SELECT @projeId = TB_PROGRAM_ID FROM TB_PROGRAM WHERE TANIM='{proje}' ";
@@ -538,7 +573,7 @@ public class DetailsPageController : Controller
             _query +=
                 $" update TB_DESTEK set DSK_PROGRAM_ID = @projeId , DSK_TALEP_SEBEP_ID = @destekTipiId , DSK_PERSONEL_ID = @perSonelId , DSK_KONU_ID = @konuId , DSK_DESTEK_TIPI_ID = @destekSekliId , DSK_KONU_BASLIK = '{konu}' , ";
             _query +=
-                $" DSK_GORUSULEN_KISI_ID = @gorusulenKisiId ,DSK_KAPALI = {isKapali} , DSK_ONCELIK_ID = {oncelikId} , DSK_ISTEKLER = '{istekler}' ,DSK_TELEFON = '{userTelNo}'  ,DSK_EPOSTA = '{userEmail}' WHERE TB_DESTEK_ID = {refNo} ";
+                $" DSK_GORUSULEN_KISI_ID = @gorusulenKisiId ,DSK_KAPALI = {isKapali} , DSK_ONCELIK_ID = {oncelikId} , DSK_ISTEKLER = '{istekler}' ,DSK_TELEFON = '{userTelNo}'  ,DSK_EPOSTA = '{userEmail}' , DSK_REVIZYON_ID = {rvzId} WHERE TB_DESTEK_ID = {refNo} ";
 
             _cmd = new SqlCommand(_query, _con);
             _cmd.ExecuteNonQuery();
@@ -556,7 +591,7 @@ public class DetailsPageController : Controller
     }
     
    //SEND EMAIL
-    public JsonResult SendEamil(string[] mailsArray , string? yapilanIslem)
+    public JsonResult SendEmail(string[] mailsArray , string? yapilanIslem , string? konu)
    {
        if (mailsArray.Length != 0)
        {
@@ -571,12 +606,13 @@ public class DetailsPageController : Controller
                        Credentials = new System.Net.NetworkCredential("bilgi@orjin.net", "dzMxSbiR6"),
                        EnableSsl = true,
                    });
-
+                   string footerText = "Bu e-posta ORJIN Yazılım Hiz.Ltd.Şti Destek Ekibi tarafından gönderilmiştir.";
+                   var footerHtml = "<html><head><style>.footer { opacity: 0.5; margin-top:100px }</style></head><body><div class=\"footer\"><h4>"+footerText+"</h4></div></body></html>";
                    var email = Email
                        .From("destek@orjin.net")
                        .To(s)
-                       .Subject("Destek Bilgisi")
-                       .Body(yapilanIslem);
+                       .Subject("Orjin Yazılım Destek Ekibi ( " + konu + " )")
+                       .Body(yapilanIslem + footerHtml,isHtml:true);
 
                    sender.SendAsync(email);
                }

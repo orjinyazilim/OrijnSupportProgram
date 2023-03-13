@@ -25,6 +25,7 @@ function getUser() {
                     });
                 } else {
                     localStorage.setItem('token',data);
+                    localStorage.setItem('isLoggedIn','true');
                     window.location.href = '/Home?token='+localStorage.getItem('token');
                 }
             },

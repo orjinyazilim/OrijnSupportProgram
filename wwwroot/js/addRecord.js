@@ -1,4 +1,8 @@
 
+const proje = document.querySelector("#Proje");
+const rvzSelector = document.querySelector("#RevizyonBilgisi");
+const rvzCheckBox = document.querySelector("#rvzCheckBox");
+
 function validateForm() {
     let firma = document.forms["addRecordForm"]["Firma"].value;
     let gorusulenKisi = document.forms["addRecordForm"]["TalepEden"].value;
@@ -6,51 +10,100 @@ function validateForm() {
     let konu = document.forms["addRecordForm"]["Konu"].value;
     let aciklama = document.forms["addRecordForm"]["Aciklama"].value;
     let destekTipi = document.forms["addRecordForm"]["DestekTipi"].value;
-    let rvzBilgisi = document.forms["addRecordForm"]["ReviziyonBilgisi"].value;
+    let rvzBilgisi = document.forms["addRecordForm"]["RevizyonBilgisi"].value;
+    let rvzCheckBoxValue = document.getElementById('rvzCheckBox').checked;
     
-    if ( (firma === "") || (gorusulenKisi === "") ||  (proje === "") || (konu === "")
-         || (aciklama === "")) {
-        
-       if(firma === "") document.getElementById('Firma').style.borderColor = 'red';
-       if(gorusulenKisi === "") document.getElementById('TalepEden').style.borderColor = 'red';
-       if(proje === "") document.getElementById('Proje').style.borderColor = 'red';
-       if(konu === "") document.getElementById('Konu').style.borderColor = 'red';
-       if(aciklama === "") document.getElementById('Aciklama').style.borderColor = 'red';
-       if(destekTipi === "") document.getElementById('DestekTipi').style.borderColor = 'red';
-       if(rvzBilgisi === "") document.getElementById('ReviziyonBilgisi').style.borderColor = 'red';
-       alert("Lütfen kırmızı alanları doldurunuz.");
-       event.preventDefault();
-        
+    if(rvzCheckBoxValue) {
+        if ( (firma === "") || (gorusulenKisi === "") ||  (proje === "") || (konu === "")
+            || (aciklama === "") || (destekTipi) === "") {
+
+            if(firma === "") document.getElementById('Firma').style.borderColor = 'red';
+            if(gorusulenKisi === "") document.getElementById('TalepEden').style.borderColor = 'red';
+            if(proje === "") document.getElementById('Proje').style.borderColor = 'red';
+            if(konu === "") document.getElementById('Konu').style.borderColor = 'red';
+            if(aciklama === "") document.getElementById('Aciklama').style.borderColor = 'red';
+            if(destekTipi === "") document.getElementById('DestekTipi').style.borderColor = 'red';
+            if(rvzBilgisi === "") document.getElementById('RevizyonBilgisi').style.borderColor = 'red';
+            event.preventDefault();
+
+        }
+    } else {
+        if ( (firma === "") || (gorusulenKisi === "") ||  (proje === "") || (konu === "")
+            || (aciklama === "") || (destekTipi) === "") {
+
+            if(firma === "") document.getElementById('Firma').style.borderColor = 'red';
+            if(gorusulenKisi === "") document.getElementById('TalepEden').style.borderColor = 'red';
+            if(proje === "") document.getElementById('Proje').style.borderColor = 'red';
+            if(konu === "") document.getElementById('Konu').style.borderColor = 'red';
+            if(aciklama === "") document.getElementById('Aciklama').style.borderColor = 'red';
+            if(destekTipi === "") document.getElementById('DestekTipi').style.borderColor = 'red';
+            event.preventDefault();
+
+        }
     }
+    
 }
 
-const proje = document.querySelector("#Proje");
-const rvzSelector = document.querySelector("#ReviziyonBilgisi");
-
-proje.addEventListener('change',function (event) {
-    $.ajax( {
-        url:'AddRecord/GetRevizyonBilgileri/',
-        dataType:'json',
-        data:{projeAdi:event.target.value},
-        type:'GET',
-        success:function (data) {
-            if(data !== "false") {
-                rvzSelector.innerHTML = '';
-                data.forEach( function (element) {
-                    const option = document.createElement('option');
-                    option.value = element;
-                    option.text = element;
-                    rvzSelector.appendChild(option);
-                });
-            }else {
-                alert("Revizyon bilgileri alınırken hata oluştu");
+rvzCheckBox.addEventListener('change',function () {
+    if(this.checked) {
+        rvzSelector.disabled = false;
+        $.ajax( {
+            url:'AddRecord/GetRevizyonBilgileri/',
+            dataType:'json',
+            data:{projeAdi:proje.value},
+            type:'GET',
+            success:function (data) {
+                if(data !== "false") {
+                    rvzSelector.innerHTML = '';
+                    data.forEach( function (element) {
+                        const option = document.createElement('option');
+                        option.value = element;
+                        option.text = element;
+                        rvzSelector.appendChild(option);
+                    });
+                }else {
+                    alert("Revizyon bilgileri alınırken hata oluştu");
+                }
+            },
+            error:function (data) {
+                alert("Revizyon bilgilerine erişmedi");
             }
-        },
-        error:function (data) {
-            alert("Revizyon bilgilerine erişmedi");
-        }
-    })
+        });
+        getRvzBilgileri();
+    }else {
+        rvzSelector.innerHTML = "";
+        rvzSelector.disabled = true;
+    }
 });
+
+function getRvzBilgileri() {
+    proje.addEventListener('change',function (event) {
+        if(!rvzSelector.disabled) {
+            $.ajax( {
+                url:'AddRecord/GetRevizyonBilgileri/',
+                dataType:'json',
+                data:{projeAdi:event.target.value},
+                type:'GET',
+                success:function (data) {
+                    if(data !== "false") {
+                        rvzSelector.innerHTML = '';
+                        data.forEach( function (element) {
+                            const option = document.createElement('option');
+                            option.value = element;
+                            option.text = element;
+                            rvzSelector.appendChild(option);
+                        });
+                    }else {
+                        alert("Revizyon bilgileri alınırken hata oluştu");
+                    }
+                },
+                error:function (data) {
+                    alert("Revizyon bilgilerine erişmedi");
+                }
+            });
+        }
+    });
+}
 
 function getGorusulenKisi(name) {
     document.getElementById('Firma').value = name.textContent;
@@ -70,7 +123,7 @@ function getGorusulenKisi(name) {
             $("#firmaModal").modal("hide")
         },
         error:function (){
-            alert("Firma personeline kişilere erilemedi");
+            alert("Firma personeline kişilere erişemedi");
         }
     });
 }

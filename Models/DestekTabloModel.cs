@@ -12,7 +12,9 @@ public class DestekTabloModel
     
     public string? Firma { get; set; }
     
-    public string? ReviziyonBilgisi { get; set; }
+    public string? RevizyonBilgisi { get; set; }
+    
+    public int? RevizyonId { get; set; }
     
     public string? GecenSure { get; set; }
     public string? TalepEden { get; set; }
